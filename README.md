@@ -1,3 +1,3 @@
-# ddu-source-ai-prompt
+# ai-prompt-connecter
 
 Hello
