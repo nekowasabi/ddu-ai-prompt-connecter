@@ -7,6 +7,10 @@ import { ensure, is } from "https://deno.land/x/unknownutil@v3.17.0/mod.ts";
 import { parse, stringify } from "jsr:@std/toml";
 
 export async function main(denops: Denops): Promise<void> {
+  type Prompt = {
+    word: string;
+  };
+  type Prompts = Prompt[];
   // enum BufferLayout {
   //   split = "split",
   //   vsplit = "vsplit",
@@ -45,19 +49,41 @@ export async function main(denops: Denops): Promise<void> {
   //   ) as string;
   //   return bufname;
   // }
+  async function getPrompts() {
+    if (!v.g.get(denops, "prompt_toml")) {
+      console.log("No prompts found.");
+      Deno.exit(1);
+    }
+
+    const path = ensure(await v.g.get(denops, "prompt_toml"), is.String);
+
+    const fileContent = await fn.readfile(denops, path);
+    ensure(fileContent, is.Array);
+
+    return ensure(
+      parse(fileContent.join("\n")),
+      is.ObjectOf({
+        prompts: is.ArrayOf(
+          is.ObjectOf({
+            word: is.String,
+          }),
+        ),
+      }),
+    ).prompts;
+  }
 
   denops.dispatcher = {
-    async runConnecter(): Promise<void> {
-      // toml読み込み
-      const toml = parse(await v.g.get(denops, "prompt_toml"));
-      console.log(toml);
-
+    async runConnecter(command: unknown): Promise<void> {
+      const prompts = await getPrompts();
       // 引数からコメント取得
       // コマンド実行
+      denops.call(
+        "<Cmd>call ddu#start({'sources': [{'name': 'mr', 'params': {'kind': 'mrw'}}]})",
+      );
     },
   };
 
   await denops.cmd(
-    `command! -nargs=1 AiConnecterRun call denops#notify("${denops.name}", "runConnecter", [<f-args>])`,
+    `command! -nargs=? AiConnecterRun call denops#notify("${denops.name}", "runConnecter", [<q-args>])`,
   );
 }
