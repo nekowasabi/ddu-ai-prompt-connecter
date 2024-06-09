@@ -13,7 +13,8 @@ import { is, maybe } from "https://deno.land/x/unknownutil@v3.15.0/mod.ts";
 
 export type ActionData = {
   path: string;
-  info?: string;
+  command: string;
+  text: string;
 };
 
 type Params = {
@@ -50,14 +51,14 @@ export class Kind extends BaseKind<Params> {
     }
 
     return Promise.resolve({
-      kind: "buffer",
-      path: action.path,
+      kind: "nofile",
+      contents: [action.text, "a", "b"],
     });
   }
 
   override params(): Params {
     return {
-      command: "Gp",
+      command: "GpNew",
     };
   }
 }

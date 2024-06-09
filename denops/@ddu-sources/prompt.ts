@@ -65,9 +65,7 @@ export class Source extends BaseSource<Params> {
           const items: Item<ActionData>[] = prompts.map((prompt: Prompt) => ({
             word: prompt.title || "none title",
             action: {
-              path: prompt.word,
               text: prompt.word + "\n" + selectedText,
-              command: args.sourceParams.command,
             },
           }));
           controller.enqueue(items);
