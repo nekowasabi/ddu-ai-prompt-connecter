@@ -7,10 +7,8 @@ import {
 import { Denops } from "https://deno.land/x/ddu_vim@v3.10.2/deps.ts";
 import { ActionData } from "https://deno.land/x/ddu_kind_file@v0.7.1/file.ts";
 import * as fn from "https://deno.land/x/denops_std@v6.4.0/function/mod.ts";
-// import * as n from "https://deno.land/x/denops_std@v6.4.0/function/nvim/mod.ts";
 import * as v from "https://deno.land/x/denops_std@v6.4.0/variable/mod.ts";
 import { ensure, is } from "https://deno.land/x/unknownutil@v3.17.0/mod.ts";
-// import { feedkeys } from "https://deno.land/x/denops_std@v6.4.0/function/mod.ts";
 import { parse } from "jsr:@std/toml";
 
 type Params = {

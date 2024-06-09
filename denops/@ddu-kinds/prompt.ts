@@ -31,7 +31,6 @@ export const PromptAction: Actions<Params> = {
   }) => {
     const { denops, items } = args;
     const action = maybe(items.at(0)?.action, isDduItemAction);
-    console.log(`execute ${action?.command} ${action?.text}`);
     denops.cmd(`${action?.command} ${action?.text}`);
     return ActionFlags.None;
   },
