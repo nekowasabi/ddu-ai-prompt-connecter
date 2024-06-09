@@ -81,7 +81,7 @@ export class Source extends BaseSource<Params> {
 
   override params(): Params {
     return {
-      command: "Gp",
+      command: "GpNew",
     };
   }
 }
