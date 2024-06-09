@@ -49,41 +49,20 @@ export async function main(denops: Denops): Promise<void> {
   //   ) as string;
   //   return bufname;
   // }
-  async function getPrompts() {
-    if (!v.g.get(denops, "prompt_toml")) {
-      console.log("No prompts found.");
-      Deno.exit(1);
-    }
-
-    const path = ensure(await v.g.get(denops, "prompt_toml"), is.String);
-
-    const fileContent = await fn.readfile(denops, path);
-    ensure(fileContent, is.Array);
-
-    return ensure(
-      parse(fileContent.join("\n")),
-      is.ObjectOf({
-        prompts: is.ArrayOf(
-          is.ObjectOf({
-            word: is.String,
-          }),
-        ),
-      }),
-    ).prompts;
-  }
 
   denops.dispatcher = {
-    async runConnecter(command: unknown): Promise<void> {
-      const prompts = await getPrompts();
-      // 引数からコメント取得
-      // コマンド実行
-      denops.call(
-        "<Cmd>call ddu#start({'sources': [{'name': 'mr', 'params': {'kind': 'mrw'}}]})",
-      );
+    async openPrompts(): Promise<void> {
+      if (!v.g.get(denops, "prompt_toml")) {
+        console.log("No prompts found.");
+        Deno.exit(1);
+      }
+
+      const path = ensure(await v.g.get(denops, "prompt_toml"), is.String);
+      await denops.cmd(`edit ${path}`);
     },
   };
 
   await denops.cmd(
-    `command! -nargs=? AiConnecterRun call denops#notify("${denops.name}", "runConnecter", [<q-args>])`,
+    `command! -nargs=0 AiOpenPrompts call denops#notify("${denops.name}", "openPrompts", [])`,
   );
 }
