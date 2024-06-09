@@ -52,7 +52,7 @@ export class Kind extends BaseKind<Params> {
 
     return Promise.resolve({
       kind: "nofile",
-      contents: [action.text, "a", "b"],
+      contents: action.text.split("\n"),
     });
   }
 
