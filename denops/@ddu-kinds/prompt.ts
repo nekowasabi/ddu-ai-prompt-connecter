@@ -22,8 +22,8 @@ type Params = {
 
 const isDduItemAction = is.ObjectOf({ text: is.String, command: is.String });
 
-export const BookmarkAction: Actions<Params> = {
-  execute: async (args: {
+export const PromptAction: Actions<Params> = {
+  execute: (args: {
     denops: Denops;
     context: Context;
     actionParams: unknown;
@@ -38,7 +38,7 @@ export const BookmarkAction: Actions<Params> = {
 };
 
 export class Kind extends BaseKind<Params> {
-  override actions = BookmarkAction;
+  override actions = PromptAction;
   override getPreviewer(args: {
     denops: Denops;
     item: DduItem;
