@@ -113,4 +113,4 @@ vnoremap <silent> <Leader>P
 
 ### Option command
 
-`:AiOpenPrompts` : Open the prompt file for adding and editing favorite prompts.
+`:AiOpenPrompts` : Open the prompt toml file for adding and editing favorite prompts.
