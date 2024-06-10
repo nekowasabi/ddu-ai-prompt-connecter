@@ -19,7 +19,7 @@ custom commands.
 ## Install
 
 To install the `ai-prompt-connecter` plugin using vim-plug, add the following
-lines to your `init.vim` or `init.lua`: e
+lines to your `init.vim`.
 
 ```vim
 call plug#begin('~/.vim/plugged')
@@ -33,7 +33,12 @@ After adding the lines, run `:PlugInstall` in your editor to install the plugin.
 
 ### Prompts Configuration
 
-let g:prompt_toml = '/path/to/nvim/prompt.toml'
+For store prompts, create a TOML file and set the `prompt_toml` variable in
+Add the following lines to your `init.vim`.
+
+```vim
+let g:prompt_toml = '/path/to/prompt.toml'
+```
 
 ```toml
 [[prompts]]
@@ -108,4 +113,4 @@ vnoremap <silent> <Leader>P
 
 ### Option command
 
-`:AiOpenPrompts` : Open the prompt file.
+`:AiOpenPrompts` : Open the prompt file for adding and editing favorite prompts.
