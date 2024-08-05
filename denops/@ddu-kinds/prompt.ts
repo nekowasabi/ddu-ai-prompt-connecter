@@ -6,10 +6,10 @@ import {
   DduItem,
   PreviewContext,
   Previewer,
-} from "https://deno.land/x/ddu_vim@v3.10.2/types.ts";
+} from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
 
-import { Denops } from "https://deno.land/x/ddu_vim@v3.10.2/deps.ts";
-import { is, maybe } from "https://deno.land/x/unknownutil@v3.15.0/mod.ts";
+import { Denops } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
+import { is, maybe } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
 
 export type ActionData = {
   path: string;
