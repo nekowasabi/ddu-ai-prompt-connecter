@@ -1,11 +1,11 @@
-import {
-  BaseSource,
+import { BaseSource } from "https://deno.land/x/ddu_vim@v5.0.0/base/source.ts";
+import type {
   DduOptions,
   Item,
   SourceOptions,
 } from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
-import { Denops } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
-import { ActionData } from "https://deno.land/x/ddu_kind_file@v0.8.0/file.ts";
+import type { Denops } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
+import type { ActionData } from "https://deno.land/x/ddu_kind_file@v0.8.0/file.ts";
 import * as fn from "https://deno.land/x/denops_std@v6.5.1/function/mod.ts";
 import * as v from "https://deno.land/x/denops_std@v6.5.1/variable/mod.ts";
 import { ensure, is } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
@@ -65,7 +65,7 @@ export class Source extends BaseSource<Params> {
           const items: Item<ActionData>[] = prompts.map((prompt: Prompt) => ({
             word: prompt.title || "none title",
             action: {
-              text: prompt.word + "\n" + selectedText,
+              text: `prompt.word + "\n" + ${selectedText}`,
               command: args.sourceParams.command,
             },
           }));

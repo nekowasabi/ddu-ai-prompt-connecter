@@ -1,14 +1,14 @@
-import {
-  ActionFlags,
+import { ActionFlags } from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
+import { BaseKind } from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
+import type {
   Actions,
-  BaseKind,
   Context,
   DduItem,
   PreviewContext,
   Previewer,
 } from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
 
-import { Denops } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
+import type { Denops } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
 import { is, maybe } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
 
 export type ActionData = {
