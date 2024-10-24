@@ -7,18 +7,38 @@ import * as v from "https://deno.land/x/denops_std@v6.5.1/variable/mod.ts";
 import { ensure, is } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
 import { parse } from "jsr:@std/toml";
 
+/**
+ * ソースのパラメータ型定義
+ * @property {string} command - 実行するコマンド
+ * @property {string} [selected] - 選択されたテキスト
+ * @property {string} [tag] - フィルタリングに使用するタグ
+ */
 type Params = {
   command: string;
   selected?: string;
   tag?: string;
 };
 
+/**
+ * プロンプト設定の型定義
+ * @property {string} [title] - プロンプトのタイトル
+ * @property {string} tag - プロンプトのタグ
+ * @property {string} word - プロンプトの本文
+ */
 type Prompt = {
   title?: string;
   tag: string;
   word: string;
 };
 
+/**
+ * TOMLファイルからプロンプト設定を読み込んで解析する
+ * @param {Denops} denops - Denopsインスタンス
+ * @returns {Promise<Array<{title?: string, tag: string, word: string}>>} パースされたプロンプト設定の配列
+ * @throws {Error} prompt_tomlが設定されていない場合
+ * @throws {Error} ファイルの読み込みに失敗した場合
+ * @throws {Error} TOMLの解析に失敗した場合、または期待される形式でない場合
+ */
 async function getPrompts(denops: Denops) {
   const promptToml = await v.g.get(denops, "prompt_toml");
   if (!promptToml) {
@@ -44,9 +64,23 @@ async function getPrompts(denops: Denops) {
   ).prompts;
 }
 
+/**
+ * プロンプト選択のためのDduソース
+ * @extends {BaseSource<Params>}
+ */
 export class Source extends BaseSource<Params> {
   override kind = "prompt";
 
+  /**
+   * プロンプトを収集してDduのアイテムとして提供する
+   * @param {Object} args - 引数オブジェクト
+   * @param {Denops} args.denops - Denopsインスタンス
+   * @param {DduOptions} args.options - Dduのオプション
+   * @param {SourceOptions} args.sourceOptions - ソースのオプション
+   * @param {Params} args.sourceParams - ソースのパラメータ
+   * @param {string} args.input - 入力文字列
+   * @returns {ReadableStream<Item<ActionData>[]>} Dduアイテムのストリーム
+   */
   override gather(args: {
     denops: Denops;
     options: DduOptions;
@@ -100,6 +134,10 @@ export class Source extends BaseSource<Params> {
     });
   }
 
+  /**
+   * デフォルトのソースパラメータを提供する
+   * @returns {Params} デフォルトのパラメータ
+   */
   override params(): Params {
     return {
       command: "GpNew",
