@@ -60,28 +60,31 @@ export class Source extends BaseSource<Params> {
       async start(controller) {
         try {
           const prompts = await getPrompts(args.denops);
+          const { selected = "", tag, command } = args.sourceParams;
 
-          const selectedText = args.sourceParams.selected ?? "";
+          const filteredPrompts = filterPromptsByTag(prompts, tag);
+          const items = createItems(filteredPrompts, selected, command);
 
-          const filteredPrompts = prompts.filter(
-            (prompt: Prompt) =>
-              !args.sourceParams.tag || prompt.tag === args.sourceParams.tag,
-          );
-
-          const items: Item<ActionData>[] = filteredPrompts.map((
-            prompt: Prompt,
-          ) => ({
-            word: prompt.title || "none title",
-            action: {
-              text: `prompt.word + "\n" + ${selectedText}`,
-              command: args.sourceParams.command,
-            },
-          }));
           controller.enqueue(items);
         } catch (e: unknown) {
-          console.error(e);
+          console.error("Failed to process prompts:", e);
+        } finally {
+          controller.close();
         }
-        controller.close();
+
+        function filterPromptsByTag(prompts: Prompt[], tag?: string): Prompt[] {
+          return tag ? prompts.filter(prompt => prompt.tag === tag) : prompts;
+        }
+
+        function createItems(prompts: Prompt[], selectedText: string, command: string): Item<ActionData>[] {
+          return prompts.map(prompt => ({
+            word: prompt.title || "none title",
+            action: {
+              text: `${prompt.word}\n${selectedText}`,
+              command,
+            },
+          }));
+        }
       },
     });
   }
