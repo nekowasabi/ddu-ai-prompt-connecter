@@ -1,5 +1,9 @@
 import { BaseSource } from "https://deno.land/x/ddu_vim@v5.0.0/base/source.ts";
-import type { DduOptions, Item, SourceOptions } from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
+import type {
+  DduOptions,
+  Item,
+  SourceOptions,
+} from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
 import type { Denops } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
 import type { ActionData } from "https://deno.land/x/ddu_kind_file@v0.8.0/file.ts";
 import * as fn from "https://deno.land/x/denops_std@v6.5.1/function/mod.ts";
@@ -63,6 +67,7 @@ export class Source extends BaseSource<Params> {
           const filteredPrompts = prompts.filter((prompt: Prompt) => ({
             // args.sourceParams.tagが存在するなら、tagが一致するものだけを返す
             // ない場合は全てのpromptを返す
+          }));
 
           const items: Item<ActionData>[] = prompts.map((prompt: Prompt) => ({
             word: prompt.title || "none title",
