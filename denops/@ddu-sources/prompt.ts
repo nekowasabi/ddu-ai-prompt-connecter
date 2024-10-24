@@ -1,9 +1,5 @@
 import { BaseSource } from "https://deno.land/x/ddu_vim@v5.0.0/base/source.ts";
-import type {
-  DduOptions,
-  Item,
-  SourceOptions,
-} from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
+import type { DduOptions, Item, SourceOptions } from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
 import type { Denops } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
 import type { ActionData } from "https://deno.land/x/ddu_kind_file@v0.8.0/file.ts";
 import * as fn from "https://deno.land/x/denops_std@v6.5.1/function/mod.ts";
@@ -37,11 +33,13 @@ async function getPrompts(denops: Denops) {
   return ensure(
     parsed,
     is.ObjectOf({
-      prompts: is.ArrayOf(is.ObjectOf({
-        title: is.OptionalOf(is.String),
-        tag: is.String,
-        word: is.String,
-      })),
+      prompts: is.ArrayOf(
+        is.ObjectOf({
+          title: is.OptionalOf(is.String),
+          tag: is.String,
+          word: is.String,
+        }),
+      ),
     }),
   ).prompts;
 }
@@ -73,11 +71,11 @@ export class Source extends BaseSource<Params> {
         }
 
         function filterPromptsByTag(prompts: Prompt[], tag?: string): Prompt[] {
-          return tag ? prompts.filter(prompt => prompt.tag === tag) : prompts;
+          return tag ? prompts.filter((prompt) => prompt.tag === tag) : prompts;
         }
 
         function createItems(prompts: Prompt[], selectedText: string, command: string): Item<ActionData>[] {
-          return prompts.map(prompt => ({
+          return prompts.map((prompt) => ({
             word: prompt.title || "none title",
             action: {
               text: `${prompt.word}\n${selectedText}`,
