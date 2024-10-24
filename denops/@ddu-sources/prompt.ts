@@ -14,6 +14,7 @@ import { parse } from "jsr:@std/toml";
 type Params = {
   command: string;
   selected?: string;
+  tag?: string;
 };
 
 type Prompt = {
@@ -23,26 +24,24 @@ type Prompt = {
 };
 
 async function getPrompts(denops: Denops) {
-  if (!v.g.get(denops, "prompt_toml")) {
-    console.log("No prompts found.");
-    Deno.exit(1);
+  const promptToml = await v.g.get(denops, "prompt_toml");
+  if (!promptToml) {
+    throw new Error("No prompts found.");
   }
 
-  const path = ensure(await v.g.get(denops, "prompt_toml"), is.String);
-
+  const path = ensure(promptToml, is.String);
   const fileContent = await fn.readfile(denops, path);
   ensure(fileContent, is.Array);
 
+  const parsed = parse(fileContent.join("\n"));
   return ensure(
-    parse(fileContent.join("\n")),
+    parsed,
     is.ObjectOf({
-      prompts: is.ArrayOf(
-        is.ObjectOf({
-          title: is.String,
-          tag: is.String,
-          word: is.String,
-        }),
-      ),
+      prompts: is.ArrayOf(is.ObjectOf({
+        title: is.OptionalOf(is.String),
+        tag: is.String,
+        word: is.String,
+      })),
     }),
   ).prompts;
 }
@@ -64,12 +63,14 @@ export class Source extends BaseSource<Params> {
 
           const selectedText = args.sourceParams.selected ?? "";
 
-          const filteredPrompts = prompts.filter((prompt: Prompt) => ({
-            // args.sourceParams.tagが存在するなら、tagが一致するものだけを返す
-            // ない場合は全てのpromptを返す
-          }));
+          const filteredPrompts = prompts.filter(
+            (prompt: Prompt) =>
+              !args.sourceParams.tag || prompt.tag === args.sourceParams.tag,
+          );
 
-          const items: Item<ActionData>[] = prompts.map((prompt: Prompt) => ({
+          const items: Item<ActionData>[] = filteredPrompts.map((
+            prompt: Prompt,
+          ) => ({
             word: prompt.title || "none title",
             action: {
               text: `prompt.word + "\n" + ${selectedText}`,
