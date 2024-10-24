@@ -15,7 +15,5 @@ export async function main(denops: Denops): Promise<void> {
     },
   };
 
-  await denops.cmd(
-    `command! -nargs=0 AiOpenPrompts call denops#notify("${denops.name}", "openPrompts", [])`,
-  );
+  await denops.cmd(`command! -nargs=0 AiOpenPrompts call denops#notify("${denops.name}", "openPrompts", [])`);
 }
