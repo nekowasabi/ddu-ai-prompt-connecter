@@ -17,8 +17,9 @@ type Params = {
 };
 
 type Prompt = {
-  word: string;
   title?: string;
+  tag: string;
+  word: string;
 };
 
 async function getPrompts(denops: Denops) {
