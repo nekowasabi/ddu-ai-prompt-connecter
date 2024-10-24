@@ -35,6 +35,7 @@ async function getPrompts(denops: Denops) {
       prompts: is.ArrayOf(
         is.ObjectOf({
           title: is.String,
+          tag: is.String,
           word: is.String,
         }),
       ),
@@ -58,6 +59,10 @@ export class Source extends BaseSource<Params> {
           const prompts = await getPrompts(args.denops);
 
           const selectedText = args.sourceParams.selected ?? "";
+
+          const filteredPrompts = prompts.filter((prompt: Prompt) => ({
+            // args.sourceParams.tagが存在するなら、tagが一致するものだけを返す
+            // ない場合は全てのpromptを返す
 
           const items: Item<ActionData>[] = prompts.map((prompt: Prompt) => ({
             word: prompt.title || "none title",
