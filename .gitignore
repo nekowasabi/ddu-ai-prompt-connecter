@@ -1,4 +1,4 @@
 .vscode/*
 .aider*
 .env
-.vim/
+.vim/*
