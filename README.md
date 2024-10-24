@@ -1,4 +1,4 @@
-# ddu-ai-prompt-connecter
+ddu-ai-prompt-connecter
 
 ## Description
 
@@ -23,7 +23,7 @@ lines to your `init.vim`.
 
 ```vim
 call plug#begin('~/.vim/plugged')
-Plug 'your-username/ai-prompt-connecter'
+Plug 'nekowasabi/ai-prompt-connecter'
 call plug#end()
 ```
 
@@ -33,8 +33,8 @@ After adding the lines, run `:PlugInstall` in your editor to install the plugin.
 
 ### Prompts Configuration
 
-For store prompts, create a TOML file and set the `prompt_toml` variable in
-Add the following lines to your `init.vim`.
+For store prompts, create a TOML file and set the `prompt_toml` variable in Add
+the following lines to your `init.vim`.
 
 ```vim
 let g:prompt_toml = '/path/to/prompt.toml'
@@ -113,4 +113,4 @@ vnoremap <silent> <Leader>P
 
 ### Option command
 
-`:AiOpenPrompts` : Open the prompt toml file for adding and editing favorite prompts.
+`:AiOpenPrompts` : Open the prompt file for adding and editing favorite prompts.
