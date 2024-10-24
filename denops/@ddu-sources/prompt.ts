@@ -70,10 +70,23 @@ export class Source extends BaseSource<Params> {
           controller.close();
         }
 
+        /**
+         * プロンプトの配列をタグでフィルタリングする
+         * @param {Prompt[]} prompts - フィルタリング対象のプロンプト配列
+         * @param {string} [tag] - フィルタリングに使用するタグ
+         * @returns {Prompt[]} フィルタリングされたプロンプトの配列。タグが指定されていない場合は元の配列を返す
+         */
         function filterPromptsByTag(prompts: Prompt[], tag?: string): Prompt[] {
           return tag ? prompts.filter((prompt) => prompt.tag === tag) : prompts;
         }
 
+        /**
+         * プロンプトの配列からDduのアイテム配列を生成する
+         * @param {Prompt[]} prompts - 変換対象のプロンプト配列
+         * @param {string} selectedText - 選択されたテキスト
+         * @param {string} command - 実行するコマンド
+         * @returns {Item<ActionData>[]} Dduで使用するアイテムの配列
+         */
         function createItems(prompts: Prompt[], selectedText: string, command: string): Item<ActionData>[] {
           return prompts.map((prompt) => ({
             word: prompt.title || "none title",
