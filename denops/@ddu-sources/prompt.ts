@@ -39,7 +39,7 @@ type Prompt = {
  * @throws {Error} ファイルの読み込みに失敗した場合
  * @throws {Error} TOMLの解析に失敗した場合、または期待される形式でない場合
  */
-async function getPrompts(denops: Denops) {
+async function getPrompts(denops: Denops): Promise<Array<{ title?: string; tag: string; word: string }>> {
   const promptToml = await v.g.get(denops, "prompt_toml");
   if (!promptToml) {
     throw new Error("No prompts found.");
