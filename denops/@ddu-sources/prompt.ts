@@ -27,7 +27,7 @@ type Params = {
  */
 type Prompt = {
   title?: string;
-  tag: string;
+  tag?: string;
   word: string;
 };
 
@@ -56,7 +56,7 @@ async function getPrompts(denops: Denops): Promise<Array<{ title?: string; tag: 
       prompts: is.ArrayOf(
         is.ObjectOf({
           title: is.OptionalOf(is.String),
-          tag: is.String,
+          tag: is.OptionalOf(is.String),
           word: is.String,
         }),
       ),
@@ -111,7 +111,7 @@ export class Source extends BaseSource<Params> {
          * @returns {Prompt[]} フィルタリングされたプロンプトの配列。タグが指定されていない場合は元の配列を返す
          */
         function filterPromptsByTag(prompts: Prompt[], tag?: string): Prompt[] {
-          return tag ? prompts.filter((prompt) => prompt.tag === tag) : prompts;
+          return tag ? prompts.filter((prompt) => prompt.tag && prompt.tag === tag) : prompts;
         }
 
         /**
